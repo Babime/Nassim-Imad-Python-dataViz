@@ -1,7 +1,7 @@
 from dash import html
 from src.components import GraphContainer
 from plotly.express import bar
-from src.utils import bar_chart, apply_graph_style
+from src.utils import bar_chart
 import pandas as pd
 
 data = {
@@ -11,7 +11,6 @@ data = {
 df = pd.DataFrame(data)
 
 fig = bar_chart(df, x="Champion", y="Winrate")
-fig = apply_graph_style(fig)
 
 layout = html.Div(
     children=[
