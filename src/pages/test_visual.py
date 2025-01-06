@@ -15,9 +15,9 @@ data = {
 
 df = pd.DataFrame(data)
 
-scatter = scatter_plot(df, x="minute", y="item_vendu", color="situation", title="Items Starters")
+scatter = scatter_plot(df, x="minute", y="item_vendu", color="situation")
 scatter = apply_graph_style(scatter)
-bar_chart_obj = bar_chart(df, x="objectif", y="winrate", title="Objectifs et Winrate")
+bar_chart_obj = bar_chart(df, x="objectif", y="winrate")
 bar_chart_obj = apply_graph_style(bar_chart_obj)
 
 layout = html.Div(

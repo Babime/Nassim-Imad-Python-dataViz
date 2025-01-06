@@ -11,7 +11,7 @@ data = {
 }
 df = pd.DataFrame(data)
 
-fig = scatter_plot(df, x="Minute", y="Gold Différence", color="Victoire", title="Impact de la Différence de Gold")
+fig = scatter_plot(df, x="Minute", y="Gold Différence", color="Victoire")
 fig = apply_graph_style(fig)
 
 layout = html.Div(
