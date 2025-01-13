@@ -1,6 +1,19 @@
 from dash import html, dcc
+from dash.dependencies import Input, Output, State
 
-def InputPseudo():
+def InputPseudo(app):
+    @app.callback(
+        [Output("stored-pseudo", "data"), Output("pseudo-feedback", "children"), Output("pseudo-input", "value")],
+        [Input("submit-pseudo", "n_clicks")],
+        [State("pseudo-input", "value")],
+    )
+    def update_pseudo(n_clicks, pseudo):
+        if n_clicks and pseudo: #Rajouter les conditions pour le pseudo par la librairie si possible
+            return pseudo, f"Pseudo enregistré : {pseudo}", ""
+        elif n_clicks:
+            return None, "Veuillez entrer un pseudo valide.", ""
+        return None, "", ""
+    
     return html.Div(
         children=[
             dcc.Input(
@@ -39,3 +52,5 @@ def InputPseudo():
         ],
         style={"textAlign": "center", "marginBottom": "20px", "marginTop": "25px"},
     )
+
+    

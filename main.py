@@ -8,7 +8,7 @@ app.layout = html.Div(
     children=[
         dcc.Store(id="stored-pseudo", storage_type="local"),
         Header(),
-        InputPseudo(),
+        InputPseudo(app),
         html.Div(id="navbar"),
         create_router(app),
         Footer(),

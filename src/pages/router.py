@@ -39,18 +39,6 @@ def register_callbacks(app):
         return Navbar(current_page=current_page, pseudo=pseudo)
 
 
-    @app.callback(
-        [Output("stored-pseudo", "data"), Output("pseudo-feedback", "children"), Output("pseudo-input", "value")],
-        [Input("submit-pseudo", "n_clicks")],
-        [State("pseudo-input", "value")],
-    )
-    def update_pseudo(n_clicks, pseudo):
-        if n_clicks and pseudo: #Rajouter les conditions pour le pseudo par la librairie si possible
-            return pseudo, f"Pseudo enregistré : {pseudo}", ""
-        elif n_clicks:
-            return None, "Veuillez entrer un pseudo valide.", ""
-        return None, "", ""
-
 def create_router(app):
     return html.Div(
         children=[
