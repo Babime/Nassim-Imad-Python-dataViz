@@ -1,5 +1,5 @@
-from pyltover.DTOs.perk_stat_dto import PerkStatDto
-from pyltover.DTOs.perk_style_dto import PerkStyleDto
+from .perk_stat_dto import PerkStatDto
+from .perk_style_dto import PerkStyleDto
 
 
 class PerksDto:

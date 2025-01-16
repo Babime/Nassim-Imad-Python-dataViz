@@ -2,8 +2,8 @@ import json
 
 import requests
 
-from pyltover.matchdata import MatchData
-from pyltover.matchtimeline import MatchTimeline
+from .matchdata import MatchData
+from .matchtimeline import MatchTimeline
 
 from .enums import By, Loading, QueueType, Matchtype
 

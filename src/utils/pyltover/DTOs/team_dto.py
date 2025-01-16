@@ -1,5 +1,5 @@
-from pyltover.DTOs.ban_dto import BanDto
-from pyltover.DTOs.objective_dto import ObjectiveDto
+from .ban_dto import BanDto
+from .objective_dto import ObjectiveDto
 
 
 class TeamDto():

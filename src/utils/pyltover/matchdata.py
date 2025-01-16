@@ -2,8 +2,8 @@ import json
 
 import requests
 
-from pyltover.DTOs.info_dto import InfoDto
-from pyltover.DTOs.metadata_dto import MetadataDto
+from .DTOs.info_dto import InfoDto
+from .DTOs.metadata_dto import MetadataDto
 
 from .enums import By, Loading, QueueType, Matchtype
 

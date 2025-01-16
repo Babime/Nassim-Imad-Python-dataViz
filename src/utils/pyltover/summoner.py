@@ -3,7 +3,7 @@ import json
 
 import requests
 
-from pyltover.match import Matchs
+from .match import Matchs
 from .enums import By, Loading
 
 class Summoner():

@@ -1,4 +1,4 @@
-from pyltover.DTOs.perk_style_selection_dto import PerkStyleSelectionDto
+from .perk_style_selection_dto import PerkStyleSelectionDto
 
 
 class PerkStyleDto:

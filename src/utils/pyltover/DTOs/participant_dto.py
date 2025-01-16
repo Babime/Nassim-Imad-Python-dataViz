@@ -1,6 +1,6 @@
-from pyltover.DTOs.challenges_dto import ChallengesDto
-from pyltover.DTOs.mission_dto import MissionDto
-from pyltover.DTOs.perks_dto import PerksDto
+from .challenges_dto import ChallengesDto
+from .mission_dto import MissionDto
+from .perks_dto import PerksDto
 
 
 class ParticipantDto():

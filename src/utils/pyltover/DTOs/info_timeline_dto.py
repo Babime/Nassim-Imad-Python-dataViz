@@ -1,5 +1,5 @@
-from pyltover.DTOs.participant_timeline_dto import ParticipantTimelineDto
-from pyltover.DTOs.frames_timeline_dto import FramesTimelineDto
+from .participant_timeline_dto import ParticipantTimelineDto
+from .frames_timeline_dto import FramesTimelineDto
 
 class InfoTimelineDto():
     def __init__(self, raw_data : dict):

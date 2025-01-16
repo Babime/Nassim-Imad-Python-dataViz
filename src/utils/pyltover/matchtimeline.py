@@ -2,10 +2,10 @@ import json
 
 import requests
 
-from pyltover.DTOs.info_dto import InfoDto
-from pyltover.DTOs.info_timeline_dto import InfoTimelineDto
-from pyltover.DTOs.metadata_dto import MetadataDto
-from pyltover.DTOs.metadata_timeline_dto import MetadataTimelineDto
+from .DTOs.info_dto import InfoDto
+from .DTOs.info_timeline_dto import InfoTimelineDto
+from .DTOs.metadata_dto import MetadataDto
+from .DTOs.metadata_timeline_dto import MetadataTimelineDto
 
 from .enums import By, Loading, QueueType, Matchtype
 

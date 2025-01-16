@@ -1,5 +1,5 @@
-from pyltover.DTOs.participant_dto import ParticipantDto
-from pyltover.DTOs.team_dto import TeamDto
+from .participant_dto import ParticipantDto
+from .team_dto import TeamDto
 
 
 class InfoDto():

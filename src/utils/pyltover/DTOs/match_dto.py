@@ -1,4 +1,4 @@
-from pyltover.DTOs.metadata_dto import MetadataDto
+from .metadata_dto import MetadataDto
 
 class MatchDto():
     def __init__(self, raw_data : dict):
