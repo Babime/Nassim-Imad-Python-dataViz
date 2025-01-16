@@ -3,7 +3,9 @@ import json
 import requests
 
 from pyltover.DTOs.info_dto import InfoDto
+from pyltover.DTOs.info_timeline_dto import InfoTimelineDto
 from pyltover.DTOs.metadata_dto import MetadataDto
+from pyltover.DTOs.metadata_timeline_dto import MetadataTimelineDto
 
 from .enums import By, Loading, QueueType, Matchtype
 
@@ -49,17 +51,17 @@ class MatchTimeline():
         return match
 
     @property
-    def metadata(self) -> MetadataDto:
+    def metadata(self) -> MetadataTimelineDto:
         try:
-            return MetadataDto(self.raw_data['metadata'])
+            return MetadataTimelineDto(self.raw_data['metadata'])
         except KeyError as e:
             e.add_note('Could not retrieve metadata, instance may not be loaded correctly. Check Loading style, region and API key of Pyltover instance.')
             raise
 
     @property
-    def info(self) -> InfoDto:
+    def info(self) -> InfoTimelineDto:
         try:
-            return InfoDto(self.raw_data['info'])
+            return InfoTimelineDto(self.raw_data['info'])
         except KeyError as e:
             e.add_note('Could not retrieve info, instance may not be loaded correctly. Check Loading style, region and API key of Pyltover instance.')
             raise

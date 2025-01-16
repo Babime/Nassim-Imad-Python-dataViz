@@ -1,5 +1,5 @@
-from metadata_timeline_dto import MetadataTimelineDto
-from info_timeline_dto import InfoTimelineDto
+from pyltover.DTOs.metadata_timeline_dto import MetadataTimelineDto
+from pyltover.DTOs.info_timeline_dto import InfoTimelineDto
 
 class TimelineDto():
     def __init__(self, raw_data : dict):

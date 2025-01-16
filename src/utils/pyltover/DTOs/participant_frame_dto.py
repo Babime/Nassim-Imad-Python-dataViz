@@ -1,6 +1,6 @@
-from champion_stats_dto import ChampionStatsDto
-from damage_stats_dto import DamageStatsDto
-from position_dto import PositionDto
+from pyltover.DTOs.champion_stats_dto import ChampionStatsDto
+from pyltover.DTOs.damage_stats_dto import DamageStatsDto
+from pyltover.DTOs.position_dto import PositionDto
 
 class ParticipantFrameDto():
     def __init__(self, raw_data : dict):

@@ -24,7 +24,7 @@ class Pyltover:
     def make_request(self, endpoint : str, params : dict = None) -> dict:
         _class = inspect.stack()[1][0].f_locals.get('self', None)
         class_name = type(_class).__name__
-        if class_name in ['Account', 'Matchs', 'MatchData']:
+        if class_name in ['Account', 'Matchs', 'MatchData', 'MatchTimeline']:
             base_url = f'https://{self.region.value[:-1]}.api.riotgames.com/'
         elif class_name in ['Summoner']:
             base_url = f'https://{str(self.region.name).lower()}.api.riotgames.com/'

@@ -59,7 +59,7 @@ class Matchs():
             matchs_data.append(MatchData.from_matchId(self.pyltover_instance, id))
         return matchs_data
     
-    def get_matchs_timeline(self) -> list[MatchData]:
+    def get_matchs_timeline(self) -> list[MatchTimeline]:
         matchs_data = []
         for id in self.raw_data:
             matchs_data.append(MatchTimeline.from_matchId(self.pyltover_instance, id))

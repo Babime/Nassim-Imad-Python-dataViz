@@ -1,5 +1,5 @@
-from participant_timeline_dto import ParticipantTimelineDto
-from frames_timeline_dto import FramesTimelineDto
+from pyltover.DTOs.participant_timeline_dto import ParticipantTimelineDto
+from pyltover.DTOs.frames_timeline_dto import FramesTimelineDto
 
 class InfoTimelineDto():
     def __init__(self, raw_data : dict):
@@ -42,9 +42,9 @@ class InfoTimelineDto():
             raise
 
     @property
-    def frames(self) -> FramesTimelineDto: 
+    def frames(self) -> list[FramesTimelineDto]: 
         try:
-            return FramesTimelineDto(self.raw_data['frames'])
+            return [FramesTimelineDto(f) for f in self.raw_data['frames']]
         except KeyError as e:
             e.add_note('Could not retrieve frames, instance may not be loaded correctly. Check Loading style, region and API key of Pyltover instance.')
             raise
