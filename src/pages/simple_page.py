@@ -4,13 +4,19 @@ from plotly.express import bar
 from src.utils import bar_chart
 import pandas as pd
 
+from src.utils.pyltover_instance import pyl
+from src.utils.pyltover.enums import By
+
+temp = pyl.get_account(By.RIOT_ID, 'Babimee', 'EUW').get_summoner()
+
 data = {
-    "Champion": ["Ahri", "Lux", "Yasuo"],
+    "Champion": [temp.account_id, "Lux", "Yasuo"],
     "Winrate": [52, 48, 50],
 }
 df = pd.DataFrame(data)
 
 fig = bar_chart(df, x="Champion", y="Winrate")
+
 
 layout = html.Div(
     children=[
