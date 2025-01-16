@@ -3,6 +3,7 @@ import json
 import requests
 
 from pyltover.matchdata import MatchData
+from pyltover.matchtimeline import MatchTimeline
 
 from .enums import By, Loading, QueueType, Matchtype
 
@@ -56,6 +57,12 @@ class Matchs():
         matchs_data = []
         for id in self.raw_data:
             matchs_data.append(MatchData.from_matchId(self.pyltover_instance, id))
+        return matchs_data
+    
+    def get_matchs_timeline(self) -> list[MatchData]:
+        matchs_data = []
+        for id in self.raw_data:
+            matchs_data.append(MatchTimeline.from_matchId(self.pyltover_instance, id))
         return matchs_data
 
     @staticmethod
