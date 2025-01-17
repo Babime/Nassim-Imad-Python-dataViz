@@ -4,6 +4,9 @@ from plotly.express import bar
 from src.utils import bar_chart
 import pandas as pd
 
+import dash
+dash.register_page(__name__, '/'+__name__.split('.')[-1])
+
 from src.utils.pyltover_instance import pyl
 from src.utils.pyltover.enums import By
 

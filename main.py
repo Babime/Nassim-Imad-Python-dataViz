@@ -1,22 +1,28 @@
-from dash import Dash, html, dcc
-from src.pages.router import create_router, register_callbacks
-from src.components import Header, Footer, InputPseudo
+from dash import Dash, html, dcc, callback, page_container
+from src.components import Header, Footer, InputPseudo, Navbar
+from dash.dependencies import Input, Output, State
 
-app = Dash(__name__, suppress_callback_exceptions=True)
+app = Dash(__name__, suppress_callback_exceptions=True, use_pages=True, pages_folder="./src/pages")
 
 app.layout = html.Div(
     children=[
+        dcc.Location(id="url"),
         dcc.Store(id="stored-pseudo", storage_type="local"),
         Header(),
         InputPseudo(app),
         html.Div(id="navbar"),
-        create_router(app),
+        page_container,
         Footer(),
     ],
     id="main-container",
 )
 
-register_callbacks(app)
+@callback(
+    Output("navbar", "children"),
+    [Input("stored-pseudo", "data"), Input("url", "pathname")],
+)
+def update_navbar(pseudo, current_page):
+    return Navbar(current_page=current_page, pseudo=pseudo)
 
 if __name__ == "__main__":
     app.run_server(debug=True)

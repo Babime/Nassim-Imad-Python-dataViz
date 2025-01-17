@@ -1,6 +1,7 @@
-from dash import html, dcc
+from dash import html, dcc, callback
+import dash
 
-def Navbar(current_page, pseudo):
+def Navbar(current_page="", pseudo=""):
 
     is_disabled = pseudo is None or pseudo.strip() == ""
 
@@ -18,8 +19,8 @@ def Navbar(current_page, pseudo):
             ),
             dcc.Link(
                 "Simple Page",
-                href="/simple-page",
-                className="navbar-link disabled" if is_disabled else "navbar-link active" if current_page == "/simple-page" else "navbar-link",
+                href="/simple_page",
+                className="navbar-link disabled" if is_disabled else "navbar-link active" if current_page == "/simple_page" else "navbar-link",
             ),
             dcc.Link(
                 "Page Complexe",
