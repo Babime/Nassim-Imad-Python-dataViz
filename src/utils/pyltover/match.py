@@ -67,7 +67,7 @@ class Matchs():
 
     @staticmethod
     def from_puuid(pyltover_instance, puuid : str) -> 'Matchs':
-        match = Matchs(pyltover_instance, {'puuid': puuid})
+        match = Matchs(pyltover_instance, {'puuid': puuid}, count=20)
         if pyltover_instance.loading_style == Loading.EAGER:
             match._fetch_data_from_puuid()
         return match

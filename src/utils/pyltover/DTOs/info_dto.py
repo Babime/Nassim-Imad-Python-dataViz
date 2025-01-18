@@ -99,7 +99,7 @@ class InfoDto():
             raise
         
     @property
-    def participants(self) -> list: 
+    def participants(self) -> list[ParticipantDto]: 
         try:
             participants = []
             for id in self.raw_data['participants']:

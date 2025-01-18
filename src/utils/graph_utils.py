@@ -80,7 +80,7 @@ def heatmap(data, x, y, z, colorscale="Viridis", title=None, **kwargs):
     return fig
 
 
-def apply_graph_style(fig):
+def apply_graph_style(fig): 
     """
     Applique un style personnalisé à un graphique Plotly.
 
@@ -91,30 +91,42 @@ def apply_graph_style(fig):
         go.Figure: Le graphique avec le style appliqué.
     """
     fig.update_layout(
-        plot_bgcolor="#1e1e30",
-        paper_bgcolor="#0d0d0d",
+        plot_bgcolor="rgba(0, 128, 255, 0.2)",
+        paper_bgcolor="rgba(0, 128, 255, 0.1)",
         font=dict(
-            family="Cinzel, serif",
-            size=14,
-            color="#eaeaea",
+            family="Poppins, sans-serif",
+            size=16,
+            color="#ffffff",
         ),
         title=dict(
-            font=dict(size=20, color="#c9b037"),
+            font=dict(size=22, color="#0080ff"),
             x=0.5,
+            y=0.95,
+            xanchor="center",
+            yanchor="top",
         ),
         xaxis=dict(
-            gridcolor="#333333",
-            color="#eaeaea",
+            gridcolor="rgba(255, 255, 255, 0.2)",
+            zerolinecolor="rgba(255, 255, 255, 0.3)",
+            color="#ffffff",
+            title=dict(
+                font=dict(size=14, color="#0080ff")
+            )
         ),
         yaxis=dict(
-            gridcolor="#333333",
-            color="#eaeaea",
+            gridcolor="rgba(255, 255, 255, 0.2)",
+            zerolinecolor="rgba(255, 255, 255, 0.3)",
+            color="#ffffff",
+            title=dict(
+                font=dict(size=14, color="#0080ff")
+            )
         ),
         legend=dict(
-            bgcolor="#1e1e30", 
-            bordercolor="#c9b037",
+            bgcolor="rgba(0, 128, 255, 0.1)", 
+            bordercolor="#0080ff",
             borderwidth=1,
-            font=dict(color="#eaeaea"),
+            font=dict(color="#ffffff"),
         ),
+        margin=dict(l=50, r=50, t=50, b=50),
     )
     return fig
