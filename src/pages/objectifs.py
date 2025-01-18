@@ -1,13 +1,11 @@
-from dash import html, dcc, callback, Output, Input
+from dash import html, callback, Output, Input
 from src.components import GraphContainer
 from plotly.express import bar
 import pandas as pd
 import dash
 
-# Enregistrement de la page avec un chemin spécifique
 dash.register_page(__name__, '/' + __name__.split('.')[-1])
 
-# Layout de la page
 layout = html.Div(
     children=[
         html.Div(id="objectif-graph-container"),
@@ -21,76 +19,89 @@ layout = html.Div(
 
 @callback(
     Output("objectif-graph-container", "children"),
-    Input("stored-pseudo", "data"),
+    [Input("stored-pseudo", "data"), Input("matchs-data-store", "data"), Input("puuid-store", "data")],
     prevent_initial_call=False
 )
-def update_graph(stored_pseudo):
+def update_graph(stored_pseudo, matchs_store, puuid_store):
     if not stored_pseudo:
         return html.Div("Aucun pseudo stocké. Merci d'entrer un pseudo.", style={"color": "#eaeaea", "textAlign": "center"})
 
+    try:
+        from src.utils.pyltover.match import MatchData
 
-    from src.utils.pyltover_instance import pyl
-    from src.utils.pyltover.enums import By
+        matchs = [MatchData(None, data) for data in matchs_store]
 
-    tag = str(stored_pseudo).split('#')
-    player = pyl.get_account(By.RIOT_ID, str(tag[0]), str(tag[1])).get_summoner()
-    matchs = player.get_matchs()
+        objectives_stats = {
+            "Herald": {"wins": 0, "total": 0},
+            "Baron": {"wins": 0, "total": 0},
+            "Horde": {"wins": 0, "total": 0}
+        }
 
-    objectives_stats = {
-                    "Herald": {"win": 0, "lose": 0},
-                    "Dragon": {"win": 0, "lose": 0},
-                    "Baron": {"win": 0, "lose": 0},
-                    "Horde": {"win": 0, "lose": 0}
-                }
+        global_wins = 0
 
-    for match in matchs.get_matchs_data():
-        match.info.teams[0]
+        for match in matchs:
+            for p in match.info.participants:
+                if puuid_store != p.puuid:
+                    continue
 
-    for match in matchs.get_matchs_data():
-        for team in match.info.teams:
-            win_status = "win" if team.win else "lose"
-            print(team.objectives.baron.kills)
-            if team.objectives.get("riftHerald", {}).get("kills", 0) > 0:
-                objectives_stats["Herald"][win_status] += team.objectives["riftHerald"]["kills"]
+            for team in match.info.teams:
+                if team.teamId != p.teamId:
+                    continue
+                if team.win:
+                    global_wins += 1
 
-            if team.objectives.get("dragon", {}).get("kills", 0) > 0:
-                objectives_stats["Dragon"][win_status] += team.objectives["dragon"]["kills"]
+                if team.objectives.riftHerald.kills > 0:
+                    objectives_stats["Herald"]["total"] += 1
+                    if team.win:
+                        objectives_stats["Herald"]["wins"] += 1
 
-            if team.objectives.get("baron", {}).get("kills", 0) > 0:
-                objectives_stats["Baron"][win_status] += team.objectives["baron"]["kills"]
+                if team.objectives.baron.kills > 0:
+                    objectives_stats["Baron"]["total"] += 1
+                    if team.win:
+                        objectives_stats["Baron"]["wins"] += 1
 
-            if team.objectives.get("horde", {}).get("kills", 0) > 0:
-                objectives_stats["Horde"][win_status] += team.objectives["horde"]["kills"]
+                if team.objectives.horde.kills > 0:
+                    objectives_stats["Horde"]["total"] += 1
+                    if team.win:
+                        objectives_stats["Horde"]["wins"] += 1
 
-    data = {
-        "Objectif": [],
-        "Avec Objectif": [],
-        "Sans Objectif": [],
-    }
+        win_with_objectives = {}
 
-    total_matches = len(matchs.get_matchs_data())
+        for objective, stats in objectives_stats.items():
+            if stats["total"] > 0:
+                winrate = (stats["wins"] / stats["total"]) * 100
+                win_with_objectives[objective] = winrate
 
-    for objective, stats in objectives_stats.items():
-        total_with = stats["win"] + stats["lose"]
-        total_without = total_matches - total_with
+        global_winrate = global_wins / len(matchs) * 100
+        objective_impact = {
+            objective_type: (win_with_objectives[objective_type] - global_winrate)
+            for objective_type in objectives_stats.keys()
+        }
 
-        winrate_with = (stats["win"] / total_with) * 100 if total_with > 0 else 0
-        winrate_without = ((total_matches - stats["lose"]) / total_without) * 100 if total_without > 0 else 0
+        data = {
+            "Objectif": [objective for objective in win_with_objectives.keys()],
+            "Impact": [objective_impact[objective] for objective in win_with_objectives.keys()],
+        }
 
-        data["Objectif"].append(objective)
-        data["Avec Objectif"].append(winrate_with)
-        data["Sans Objectif"].append(winrate_without)
+        df = pd.DataFrame(data)
 
-    df = pd.DataFrame(data)
+        fig = bar(
+            df,
+            x="Objectif",
+            y="Impact",
+            title="Impact du Joueur par Objectif Pris par son Équipe",
+            labels={"Objectif": "Type d'Objectif", "Impact": "Impact"},
+            text_auto=True,
+        )
 
-    fig = bar(
-        df,
-        x="Objectif",
-        y=["Avec Objectif", "Sans Objectif"],
-        title="Impact des Objectifs sur le Winrate",
-        labels={"value": "Winrate (%)", "variable": "Statut"},
-        barmode="group",
-        text_auto=True,
-    )
+        fig.update_layout(
+            yaxis_title="Impact (Difference)",
+            xaxis_title="Objecitf Type",
+            showlegend=False,
+            yaxis={"range": [df["Impact"].min() - 5, df["Impact"].max() + 5]}
+        )
 
-    return GraphContainer(title="Impact des Objectifs sur le Winrate", figure=fig)
+        return GraphContainer(title="Impact par Objectif", figure=fig)
+
+    except Exception as e:
+        return html.Div(f"Erreur lors du traitement des données : {e}", style={"color": "red", "textAlign": "center"})
