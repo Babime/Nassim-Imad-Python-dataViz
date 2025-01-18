@@ -32,9 +32,10 @@ def update_graph(stored_pseudo, matchs_store, puuid_store):
         matchs = [MatchData(None, data) for data in matchs_store]
 
         objectives_stats = {
-            "Herald": {"wins": 0, "total": 0},
-            "Baron": {"wins": 0, "total": 0},
-            "Horde": {"wins": 0, "total": 0}
+            "riftHerald": {"wins": 0, "total": 0},
+            "baron": {"wins": 0, "total": 0},
+            "horde": {"wins": 0, "total": 0},
+            "atakhan": {"wins": 0, "total": 0}
         }
 
         global_wins = 0
@@ -50,20 +51,11 @@ def update_graph(stored_pseudo, matchs_store, puuid_store):
                 if team.win:
                     global_wins += 1
 
-                if team.objectives.riftHerald.kills > 0:
-                    objectives_stats["Herald"]["total"] += 1
-                    if team.win:
-                        objectives_stats["Herald"]["wins"] += 1
-
-                if team.objectives.baron.kills > 0:
-                    objectives_stats["Baron"]["total"] += 1
-                    if team.win:
-                        objectives_stats["Baron"]["wins"] += 1
-
-                if team.objectives.horde.kills > 0:
-                    objectives_stats["Horde"]["total"] += 1
-                    if team.win:
-                        objectives_stats["Horde"]["wins"] += 1
+                for obj_str in objectives_stats.keys():
+                    if getattr(team.objectives, obj_str).kills > 0:
+                        objectives_stats[obj_str]["total"] += 1
+                        if team.win:
+                            objectives_stats[obj_str]["wins"] += 1
 
         win_with_objectives = {}
 
@@ -79,7 +71,7 @@ def update_graph(stored_pseudo, matchs_store, puuid_store):
         }
 
         data = {
-            "Objectif": [objective for objective in win_with_objectives.keys()],
+            "Objectif": [str(objective).capitalize() for objective in win_with_objectives.keys()],
             "Impact": [objective_impact[objective] for objective in win_with_objectives.keys()],
         }
 
