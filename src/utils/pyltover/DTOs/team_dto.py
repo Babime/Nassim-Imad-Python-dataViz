@@ -1,5 +1,5 @@
 from .ban_dto import BanDto
-from .objective_dto import ObjectiveDto
+from .objectives_dto import ObjectivesDto
 
 
 class TeamDto():
@@ -22,9 +22,9 @@ class TeamDto():
             raise
 
     @property
-    def objectives(self) -> ObjectiveDto:
+    def objectives(self) -> ObjectivesDto:
         try:
-            return ObjectiveDto(self.raw_data['objectives'])
+            return ObjectivesDto(self.raw_data['objectives'])
         except KeyError as e:
             e.add_note('Could not retrieve allInPings, instance may not be loaded correctly. Check Loading style, region and API key of Pyltover instance.')
             raise

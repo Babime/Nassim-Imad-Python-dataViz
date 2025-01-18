@@ -18,6 +18,11 @@ def Navbar(current_page="", pseudo=""):
                 className="navbar-link active" if current_page == "/about" else "navbar-link",
             ),
             dcc.Link(
+                "Objectifs",
+                href="/objectifs",
+                className="navbar-link disabled" if is_disabled else "navbar-link active" if current_page == "/objectifs" else "navbar-link",
+            ),
+            dcc.Link(
                 "Pings",
                 href="/pings",
                 className="navbar-link disabled" if is_disabled else "navbar-link active" if current_page == "/pings" else "navbar-link",
