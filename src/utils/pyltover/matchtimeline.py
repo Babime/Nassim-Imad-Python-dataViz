@@ -16,6 +16,8 @@ class MatchTimeline():
         self.pyltover_instance = pyltover_instance
         self.raw_data = raw_data
         self._is_loaded = False
+        if "info" in raw_data.keys():
+            self._is_loaded = True
         
     def __str__(self):
         return json.dumps(self.raw_data, indent=4)

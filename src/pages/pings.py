@@ -19,19 +19,12 @@ layout = html.Div(
 
 @callback(
     Output("graph-container", "children"),
-    Input("stored-pseudo", "data"),  
+    [Input("stored-pseudo", "data"), Input("matchs-data-store", "data"), Input("puuid-store", "data")],
     prevent_initial_call=False  
 )
-def update_graph(stored_pseudo):
+def update_graph(stored_pseudo, matchs_store, puuid_store):
     if not stored_pseudo:
         return html.Div("Aucun pseudo stocké. Merci d'entrer un pseudo.")
-
-    from src.utils.pyltover_instance import pyl
-    from src.utils.pyltover.enums import By
-
-    tag = str(stored_pseudo).split('#')
-    player = pyl.get_account(By.RIOT_ID, str(tag[0]), str(tag[1])).get_summoner()
-    matchs = player.get_matchs()
 
     pings = {"True": {"allInPings": 0, "assistMePings": 0, "enemyMissingPings": 0, "enemyVisionPings": 0,
                   "holdPings": 0, "getBackPings": 0, "needVisionPings": 0, "onMyWayPings": 0,
@@ -40,9 +33,13 @@ def update_graph(stored_pseudo):
                    "holdPings": 0, "getBackPings": 0, "needVisionPings": 0, "onMyWayPings": 0,
                    "pushPings": 0, "visionClearedPings": 0}}
 
-    for match in matchs.get_matchs_data():
+    from src.utils.pyltover.match import MatchData
+    matchs = [MatchData(None, data) for data in matchs_store]
+    
+
+    for match in matchs:
         for p in match.info.participants:
-            if player.puuid != p.puuid:
+            if puuid_store != p.puuid:
                 continue
             for ping_type in pings["True"].keys():
                 pings[str(p.win)][ping_type] += getattr(p, ping_type, 0)

@@ -1,4 +1,4 @@
-from pyltover.DTOs.objective_dto import ObjectiveDto
+from .objective_dto import ObjectiveDto
 
 
 class ObjectivesDto:

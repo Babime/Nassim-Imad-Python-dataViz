@@ -104,10 +104,6 @@ body {
     transition: all 0.3s ease-in-out;
 }
 
-#page-content:hover {
-    transform: scale(1.01);
-}
-
 /* Graphs */
 .graph-container {
     background: rgba(35, 35, 35, 0.85);
@@ -117,9 +113,6 @@ body {
     transition: transform 0.3s ease-in-out;
 }
 
-.graph-container:hover {
-    transform: scale(1.02);
-}
 
 .graph-title {
     color: #ffffff;
