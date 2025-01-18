@@ -12,7 +12,7 @@ layout = html.Div(
     ],
     style={
         "padding": "20px",
-        "backgroundColor": "#1f1e2e",
+        "backgroundColor": "#232323cc",
         "borderRadius": "10px",
     },
 )
@@ -51,6 +51,7 @@ def update_graph(stored_pseudo, matchs_store, puuid_store):
                     else:
                         loss_games_per_ping[ping_type] += 1
                 pings[str(p.win)][ping_type] += getattr(p, ping_type, 0)
+
 
     ping_win_probabilities = {
         ping_type: win_games_per_ping[ping_type] / (win_games_per_ping[ping_type] + loss_games_per_ping[ping_type])

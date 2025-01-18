@@ -12,7 +12,7 @@ layout = html.Div(
     ],
     style={
         "padding": "20px",
-        "backgroundColor": "#1f1e2e",
+        "backgroundColor": "#232323cc",
         "borderRadius": "10px",
     },
 )

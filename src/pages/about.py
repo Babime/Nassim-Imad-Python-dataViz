@@ -18,8 +18,8 @@ layout = html.Div(
     ],
     style={
         "padding": "20px",
-        "backgroundColor": "#1f1e2e",
+        "margin-bottom": "20px",
+        "backgroundColor": "#232323cc",
         "borderRadius": "10px",
-        "boxShadow": "0px 4px 10px rgba(0, 0, 0, 0.7)",
     },
 )

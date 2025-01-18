@@ -34,9 +34,9 @@ class InfoTimelineDto():
             raise
 
     @property
-    def participants(self) -> ParticipantTimelineDto: 
+    def participants(self) -> list[ParticipantTimelineDto]: 
         try:
-            return ParticipantTimelineDto(self.raw_data['participants'])
+            return [ParticipantTimelineDto(p) for p in self.raw_data['participants']]
         except KeyError as e:
             e.add_note('Could not retrieve participants, instance may not be loaded correctly. Check Loading style, region and API key of Pyltover instance.')
             raise

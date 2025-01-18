@@ -107,7 +107,6 @@ body {
 /* Graphs */
 .graph-container {
     background: rgba(35, 35, 35, 0.85);
-    padding: 30px;
     border-radius: 20px;
     margin-bottom: 30px;
     transition: transform 0.3s ease-in-out;
