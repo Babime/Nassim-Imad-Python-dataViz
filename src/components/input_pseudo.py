@@ -3,16 +3,27 @@ from dash.dependencies import Input, Output, State
 
 def InputPseudo(app):
     @app.callback(
-        [Output("stored-pseudo", "data"), Output("pseudo-feedback", "children"), Output("pseudo-input", "value")],
+        [Output("stored-pseudo", "data"), Output("pseudo-feedback", "children"), Output("pseudo-input", "value"), Output("matchs-data-store", "data"),Output("matchs-timeline-store", "data"), Output("puuid-store", "data")],
         [Input("submit-pseudo", "n_clicks")],
         [State("pseudo-input", "value")],
     )
     def update_pseudo(n_clicks, pseudo):
-        if n_clicks and pseudo:  # Validate the pseudo using the library if possible
-            return pseudo, f"Pseudo enregistré : {pseudo}", ""
+        if n_clicks and pseudo:  
+            from src.utils.pyltover_instance import pyl
+            from src.utils.pyltover.enums import By
+
+            tag = str(pseudo).split('#')
+            player = pyl.get_account(By.RIOT_ID, str(tag[0]), str(tag[1])).get_summoner()
+            matchs_ids = player.get_matchs()
+            matchs_data = matchs_ids.get_matchs_data()
+            matchs_timeline = matchs_ids.get_matchs_timeline()
+            matchs_data_raw_data = [m.raw_data for m in matchs_data]
+            matchs_timeline_raw_data = [m.raw_data for m in matchs_timeline]
+
+            return pseudo, f"Pseudo enregistré : {pseudo}", "", matchs_data_raw_data, matchs_timeline_raw_data,  player.puuid
         elif n_clicks:
-            return None, "Veuillez entrer un pseudo valide.", ""
-        return None, "", ""
+            return None, "Veuillez entrer un pseudo valide.", "", "", "", ""
+        return None, "", "", "", "", ""
 
     return html.Div(
         children=[
