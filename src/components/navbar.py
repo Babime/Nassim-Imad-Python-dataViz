@@ -18,9 +18,9 @@ def Navbar(current_page="", pseudo=""):
                 className="navbar-link active" if current_page == "/about" else "navbar-link",
             ),
             dcc.Link(
-                "Simple Page",
-                href="/simple_page",
-                className="navbar-link disabled" if is_disabled else "navbar-link active" if current_page == "/simple_page" else "navbar-link",
+                "Pings",
+                href="/pings",
+                className="navbar-link disabled" if is_disabled else "navbar-link active" if current_page == "/pings" else "navbar-link",
             ),
             dcc.Link(
                 "Page Complexe",
