@@ -19,7 +19,7 @@ layout = html.Div(
 
 @callback(
     Output("graph-container", "children"),
-    [Input("stored-pseudo", "data"), Input("matchs-store", "data"), Input("puuid-store", "data")],
+    [Input("stored-pseudo", "data"), Input("matchs-data-store", "data"), Input("puuid-store", "data")],
     prevent_initial_call=False  
 )
 def update_graph(stored_pseudo, matchs_store, puuid_store):

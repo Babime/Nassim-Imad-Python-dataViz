@@ -8,9 +8,9 @@ app.layout = html.Div(
     children=[
         dcc.Location(id="url"),
         dcc.Store(id="stored-pseudo", storage_type="local"),
-        dcc.Store(id='matchs-data-store', storage_type="local"),
-        dcc.Store(id='matchs-timeline-store', storage_type="local"),
         dcc.Store(id='puuid-store', storage_type="local"),
+        dcc.Store(id='matchs-data-store', storage_type="memory"),
+        dcc.Store(id='matchs-timeline-store', storage_type="memory"),
         Header(),
         InputPseudo(app),
         html.Div(id="navbar"),
