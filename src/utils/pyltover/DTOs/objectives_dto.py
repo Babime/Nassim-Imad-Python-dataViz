@@ -64,3 +64,13 @@ class ObjectivesDto:
         except KeyError as e:
             e.add_note('Could not retrieve tower, instance may not be loaded correctly. Check Loading style, region and API key of Pyltover instance.')
             raise
+
+    @property
+    def atakhan(self) -> ObjectiveDto:
+        try:
+            if "atakhan" not in self.raw_data:
+                return ObjectiveDto({"first": False, "kills": 0})
+            return ObjectiveDto(self.raw_data['atakhan'])
+        except KeyError as e:
+            e.add_note('Could not retrieve atakhan, instance may not be loaded correctly. Check Loading style, region and API key of Pyltover instance.')
+            raise
