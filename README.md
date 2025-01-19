@@ -133,7 +133,6 @@ graph TD
     C1 --> C1_5[input_pseudo.py]
     C1 --> C1_6[navbar.py]
     C1 --> C1_7[page_layout.py]
-    C1 --> C1_8[card.py]
 
     C --> C2[pages/]
     C2 --> C2_1[__init__.py]
@@ -142,7 +141,6 @@ graph TD
     C2 --> C2_4[objectifs.py]
     C2 --> C2_5[pings.py]
     C2 --> C2_6[positions.py]
-    C2 --> C2_7[test_visual.py]
 
     C --> C3[utils/]
     C3 --> C3_1[pyltover/]
