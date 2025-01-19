@@ -62,10 +62,14 @@ def update_damage_bar_chart(selected_game_id, _pseudo, stored_data_games, puuid_
     from src.utils.pyltover.match import MatchData
     matchs = [MatchData(None, data) for data in stored_data_games]  # crée des objets MatchData à partir des données stockées
 
-    game_options = [
-        {"label": f"Partie {game.metadata.matchId}", "value": game.metadata.matchId}
-        for game in matchs
-    ]  # crée une liste d'options pour le dropdown avec les identifiants des parties
+    # crée les options du menu déroulant à partir des matchs stockés
+    game_options = []
+    for game in matchs:
+        winning_team = ""
+        for team in game.info.teams:
+            if team.win:
+                winning_team = "Bleu" if team.teamId == 100 else "Rouge"
+        game_options.append({"label": f"Partie {game.metadata.matchId} - Win: {winning_team}", "value": game.metadata.matchId})
 
     if not selected_game_id:
         return game_options, html.Div("Selectionnez une partie pour voir les données.", style={"color": "white"})
@@ -80,8 +84,11 @@ def update_damage_bar_chart(selected_game_id, _pseudo, stored_data_games, puuid_
         # si les données de la partie sélectionnée ne sont pas trouvées, retourne les options du dropdown et un message
 
     participants = selected_game_data.info.participants  # obtient les participants de la partie sélectionnée
-    player_index = [participant.participantId for participant in participants if participant.puuid == puuid_store][0]
-    # trouve l'index du joueur principal
+    # trouve l'index du joueur dans les participants
+    player_index = None
+    for participant in selected_game_data.info.participants:
+        if participant.puuid == puuid_store:
+            player_index = participant.participantId
 
     damage_data = {
         participant.participantId: {

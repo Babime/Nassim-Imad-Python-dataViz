@@ -64,11 +64,15 @@ def update_gold_graph(selected_game_id, _pseudo, stored_timeline_games, puuid_st
     # crée des objets MatchTimeline à partir des données stockées
     matchs = [MatchTimeline(None, data) for data in stored_timeline_games]
 
-    # crée les options pour le dropdown à partir des matchs
-    game_options = [
-        {"label": f"Partie {game.metadata.matchId}", "value": game.metadata.matchId}
-        for game in matchs
-    ]
+    # crée les options du menu déroulant à partir des matchs stockés
+    game_options = []
+    for game in matchs:
+        winning_team = ""
+        for frames in game.info.frames:
+            for event in frames.events:
+                if event.type == "GAME_END":
+                    winning_team = "Bleu" if event.raw_data["winningTeam"] == 100 else "Rouge"
+        game_options.append({"label": f"Partie {game.metadata.matchId} - Win: {winning_team}", "value": game.metadata.matchId})
 
     # si aucune partie n'est sélectionnée, retourne les options et un message
     if not selected_game_id:
@@ -84,8 +88,11 @@ def update_gold_graph(selected_game_id, _pseudo, stored_timeline_games, puuid_st
         return game_options, html.Div("Partie introuvable.", style={"color": "white"})
 
     frames = selected_game_data.info.frames
-    # trouve l'index du joueur à partir du puuid stocké
-    player_index = [participant.participantId for participant in selected_game_data.info.participants if participant.puuid == puuid_store][0]
+    # trouve l'index du joueur dans les participants
+    player_index = None
+    for participant in selected_game_data.info.participants:
+        if participant.puuid == puuid_store:
+            player_index = participant.participantId
 
     time_steps = range(len(frames))
     # initialise un dictionnaire pour stocker l'or des participants

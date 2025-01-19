@@ -84,10 +84,16 @@ def update_dropdown_slider_and_graph(selected_game_id, slider_value, _pseudo, st
     matchs = [MatchTimeline(None, data) for data in stored_timeline_games]
 
     # crée les options du menu déroulant à partir des matchs stockés
-    game_options = [
-        {"label": f"Partie {game.metadata.matchId}", "value": game.metadata.matchId}
-        for game in matchs
-    ]
+    game_options = []
+    for game in matchs:
+        winning_team = ""
+        for frames in game.info.frames:
+            for event in frames.events:
+                if event.type == "GAME_END":
+                    winning_team = "Bleu" if event.raw_data["winningTeam"] == 100 else "Rouge"
+        game_options.append({"label": f"Partie {game.metadata.matchId} - Win: {winning_team}", "value": game.metadata.matchId})
+    
+        
 
     if not selected_game_id:
         return game_options, 1, {}, html.Div("Selectionnez une partie pour voir les données.", style={"color": "white"})
@@ -104,7 +110,10 @@ def update_dropdown_slider_and_graph(selected_game_id, slider_value, _pseudo, st
     marks = {i: str(i) for i in range(max_time + 1)}
 
     # trouve l'index du joueur dans les participants
-    player_index = [participant.participantId for participant in selected_game_data.info.participants if participant.puuid == puuid_store][0]
+    player_index = None
+    for participant in selected_game_data.info.participants:
+        if participant.puuid == puuid_store:
+            player_index = participant.participantId
 
     if slider_value is None or slider_value > max_time:
         slider_value = 0

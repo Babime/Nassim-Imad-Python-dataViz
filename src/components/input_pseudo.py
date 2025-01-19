@@ -35,13 +35,13 @@ def InputPseudo(app):
     def update_pseudo(n_clicks, pseudo):
         if n_clicks and pseudo:  
             # importe les modules nécessaires pour récupérer les données du joueur
-            from src.utils.pyltover_instance import pyl
+            from src.utils.pyltover_instance import getPyltoverInstance
             from src.utils.pyltover.enums import By
 
             # sépare le pseudo en deux parties
             tag = str(pseudo).split('#')
             # récupère les informations du joueur
-            player = pyl.get_account(By.RIOT_ID, str(tag[0]), str(tag[1])).get_summoner()
+            player = getPyltoverInstance().get_account(By.RIOT_ID, str(tag[0]), str(tag[1])).get_summoner()
             # récupère les identifiants des matchs du joueur
             matchs_ids = player.get_matchs()
             # récupère les données des matchs
