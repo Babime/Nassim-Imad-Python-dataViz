@@ -137,7 +137,6 @@ graph TD
     C --> C2[pages/]
     C2 --> C2_1[__init__.py]
     C2 --> C2_2[home.py]
-    C2 --> C2_3[about.py]
     C2 --> C2_4[objectifs.py]
     C2 --> C2_5[pings.py]
     C2 --> C2_6[positions.py]
