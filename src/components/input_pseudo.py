@@ -7,6 +7,30 @@ def InputPseudo(app):
         [Output("stored-pseudo", "data"), Output("pseudo-feedback", "children"), Output("pseudo-input", "value"), Output("matchs-data-store", "data"),Output("matchs-timeline-store", "data"), Output("puuid-store", "data")],
         [Input("submit-pseudo", "n_clicks")],
         [State("pseudo-input", "value")],
+        running=[(Output("submit-pseudo", "disabled"), True, False), 
+                 (Output("submit-pseudo", "children"), "Chargement...", "Valider"), 
+                 (Output("submit-pseudo", "style"), {
+                    "marginLeft": "10px",
+                    "padding": "10px 25px",
+                    "backgroundColor": "rgba(255, 50, 0, 0.2)",
+                    "color": "#ffffff",
+                    "border": "1px solid rgba(0, 128, 255, 0.5)",
+                    "borderRadius": "25px",
+                    "fontSize": "1.2em",
+                    "cursor": "pointer",
+                    "transition": "background-color 0.3s ease-in-out, transform 0.2s ease-in-out",
+                    "disabled": "disabled",
+                }, {
+                    "marginLeft": "10px",
+                    "padding": "10px 25px",
+                    "backgroundColor": "rgba(0, 128, 255, 0.2)",
+                    "color": "#ffffff",
+                    "border": "1px solid rgba(0, 128, 255, 0.5)",
+                    "borderRadius": "25px",
+                    "fontSize": "1.2em",
+                    "cursor": "pointer",
+                    "transition": "background-color 0.3s ease-in-out, transform 0.2s ease-in-out",
+                })],
     )
     def update_pseudo(n_clicks, pseudo):
         if n_clicks and pseudo:  
