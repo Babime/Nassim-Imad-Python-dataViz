@@ -28,4 +28,4 @@ def update_navbar(pseudo, current_page):
     return Navbar(current_page=current_page, pseudo=pseudo)
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(host='0.0.0.0' ,debug=False, port=8050)
