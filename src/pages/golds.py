@@ -4,8 +4,10 @@ import dash
 import plotly.graph_objects as go
 import numpy as np
 
+# enregistre la page dans dash avec un chemin basé sur le nom du fichier
 dash.register_page(__name__, '/' + __name__.split('.')[-1])
 
+# définit la mise en page de la page
 layout = html.Div(
     children=[
         html.Div(
@@ -13,7 +15,7 @@ layout = html.Div(
                 dcc.Dropdown(
                     id="game-dropdown2",
                     placeholder="Choisir une partie...",
-                    options=[],  
+                    options=[],  # options du dropdown initialement vide
                     style={"color": "black", 
                            "width": "45%",
                             "margin": "0 auto",},
@@ -37,6 +39,7 @@ layout = html.Div(
     },
 )
 
+# définit le callback pour mettre à jour les options du dropdown et le contenu du graphique
 @callback(
     [
         Output("game-dropdown2", "options"),
@@ -53,39 +56,49 @@ layout = html.Div(
     prevent_initial_call=False,
 )
 def update_gold_graph(selected_game_id, _pseudo, stored_timeline_games, puuid_store):
+    # vérifie si les données de la timeline sont stockées
     if not stored_timeline_games:
         return [], html.Div("Aucun pseudo stocké. Merci d'entrer un pseudo.", style={"color": "white"})
 
     from src.utils.pyltover.match import MatchTimeline
+    # crée des objets MatchTimeline à partir des données stockées
     matchs = [MatchTimeline(None, data) for data in stored_timeline_games]
 
+    # crée les options pour le dropdown à partir des matchs
     game_options = [
         {"label": f"Partie {game.metadata.matchId}", "value": game.metadata.matchId}
         for game in matchs
     ]
 
+    # si aucune partie n'est sélectionnée, retourne les options et un message
     if not selected_game_id:
         return game_options, html.Div("Selectionnez une partie pour voir les données.", style={"color": "white"})
 
+    # trouve les données de la partie sélectionnée
     selected_game_data = next(
         (game for game in matchs if game.metadata.matchId == selected_game_id), None
     )
 
+    # si les données de la partie ne sont pas trouvées, retourne les options et un message
     if not selected_game_data:
         return game_options, html.Div("Partie introuvable.", style={"color": "white"})
 
     frames = selected_game_data.info.frames
+    # trouve l'index du joueur à partir du puuid stocké
     player_index = [participant.participantId for participant in selected_game_data.info.participants if participant.puuid == puuid_store][0]
 
     time_steps = range(len(frames))
+    # initialise un dictionnaire pour stocker l'or des participants
     participant_gold = {frame.participantId: [] for frame in frames[0].participantFrames}
 
+    # remplit le dictionnaire avec les valeurs d'or pour chaque participant à chaque frame
     for frame in frames:
         for participant in frame.participantFrames:
             participant_gold[participant.participantId].append(participant.totalGold)
 
     fig = go.Figure()
 
+    # ajoute une trace pour chaque participant au graphique
     for participant_id, gold_values in participant_gold.items():
         participant_name = "Vous" if participant_id == player_index else f"Joueur {participant_id}"
         fig.add_trace(go.Scatter(
@@ -96,16 +109,17 @@ def update_gold_graph(selected_game_id, _pseudo, stored_timeline_games, puuid_st
             name=participant_name
         ))
 
-    # Update layout
+    # met à jour la mise en page du graphique
     fig.update_layout(
-        title=f"Gold Evolution in Game {selected_game_id}",
-        xaxis_title="Time (minutes)",
-        yaxis_title="Gold Amount",
+        title=f"Evolution des golds dans la partie {selected_game_id}",
+        xaxis_title="Temps (minutes)",
+        yaxis_title="Golds",
         template="plotly_white",
         height=500,
         width=700
     )
 
-    graph_content = GraphContainer(title="Gold Evolution Over Time", figure=fig)
+    # crée le contenu du graphique avec le conteneur de graphique personnalisé
+    graph_content = GraphContainer(title="Evolution de la quantité de gold over time", figure=fig)
 
     return game_options, graph_content

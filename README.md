@@ -74,14 +74,15 @@ Accédez à l'application à l'adresse : [http://localhost:8050].
 
 ### Description des Données
 Les données utilisées dans ce projet proviennent de l'API Riot Games. Elles incluent :
-- Les statistiques des matchs : objectifs pris (Baron, Dragon, Herald, etc.), positions des joueurs, victoires/défaites.
-- Les actions des joueurs : pings, mouvements, XP, gold.
+- Les statistiques des matchs : objectifs pris (Baron, Dragon, Herald, etc.), positions des joueurs, victoires/défaites etc.
+- Les actions des joueurs : pings, mouvements, XP, gold etc.
 
 Les données sont stockées temporairement en mémoire et ne sont pas sauvegardées localement.
 
 ### Accès aux Données
 - L'application utilise une clé API Riot pour effectuer des requêtes.
-- Une librairie a été crée afin de pouvoir communiquer simplement avec l'API Riot
+- Une librairie (Pyltover) a été crée pour l'occasion afin de pouvoir communiquer simplement avec l'API Riot via des objets python facile à manipuler.
+- Lorsque l'utilisateur saisi un pseudo, l'application *fetch* l'ensemble des données du joueurs (les 20 denrières parties) et les stocks en mémoire afin de les ré-utiliser de page en page. Cela permet de ne pas atteindre de rate-limit trop vite.
 ---
 
 ## Developer Guide
@@ -104,14 +105,14 @@ NASSIM-IMAD-PYTHON-DATAVIZ/
 
 ### Ajouter une Page
 1. Créez un fichier dans `src/pages/`, par exemple `nouvelle_page.py`.
-2. Ajoutez ``` dash.register_page(__name__, '/' + __name__.split('.')[-1]) ``` afin qu'elle soit détecté automatiquement par dash
+2. Ajoutez ``` dash.register_page(__name__, '/' + __name__.split('.')[-1]) ``` afin qu'elle soit détecté automatiquement par dash avec comme lien ```/leNomDuFichier``` 
 4. Styliser la div principale
 5. Dans le fichier ``` navbar.py ``` ajouter un ``` dcc.link ``` pour permettre l'accès à la page à travers la navbar
 
 ### Ajouter un Graphique
-1. Créer un variable ``` layout ``` qui contiendrait une div avec un id lié au component graph-container avec un id unique
-2. Ajout d'une méthode lié à un callback permettant de créer et personnaliser un graph plotly
-3. Utiliser la librairie Pylotver (crée pour le projet) afin de récuperer les données depuis l'api RIOT
+1. Créer une variable ``` layout ``` contenant une div avec un id (qui devra être unique) correspondant au graph que la div contiendra.
+2. Ajout d'une méthode décoré avec un callback permettant de créer et personnaliser le graph plotly. Utiliser les input et state nécessaires.
+3. Utiliser la librairie Pylotver (créée pour le projet) ainsi que les données stocké en mémoire afin de construire un graphique.
 4. Retourner le graphique plotly
 
 ### Diagramme de l'Architecture
@@ -177,11 +178,15 @@ graph TD
 1. Identifier les objectifs ayant le plus d'impact sur le winrate des joueurs.
 2. Analyser l'influence des positions des joueurs au cours de la partie.
 3. Quantifier l'impact des pings et des actions en jeu sur les résultats des parties.
+4. Visualiser l'évolution des Golds (argent en jeu) des joueurs au cours d'une partie.
+5. Visualiser la quantité de dégâts effectués par un joueur et la répartition entre dégâts magique et physique.
 
 ### Conclusions
 - **Atakhan et Baron** : Ces objectifs augmentent significativement le taux de victoire.
 - **Positions Stratégiques** : Les joueurs se regroupent autour des timings d'objectif représente un avantage.
-- **Coordination à travers les Pings** : Une communication efficace est corrélée à un meilleur taux de victoire.
+- **Coordination à travers les Pings** : Dans le jeu, certains joueurs utilisent parfois les pings (indicateurs visuels) à mauvais escient (se moquer de ses alliés ect.). Les données démontre qu'une communication efficace, saine et mesuré (utilise les bons ping, au bon moment et avec modération) est corrélée à un meilleur taux de victoire.
+- **Argent en jeu** : Posséder plus d'argent que le reste des joueurs pendant une partie favorise la victoire, le fait de gagner encore d'avantage d'argent ainsi que les dégâts.
+- **Dégats** : Les joueurs infligeant le plus de dégâts inflige souvent un seul type de dégât (physique ou magique).
 
 ---
 
@@ -189,7 +194,6 @@ graph TD
 
 Je déclare sur l’honneur que le code fourni a été produit par moi/nous-mêmes, à l’exception des lignes ci-dessous :
 
-- **Utilisation de l'API Riot Games** : Documentation officielle de Riot Games (à des fins d'accès aux données de jeu).
 - **Mermaid pour le diagramme d'architecture** : Documentation officielle Mermaid pour générer des diagrammes Markdown.
 
 Toute ligne non déclarée ci-dessus est réputée être produite par l’auteur (ou les auteurs) du projet.

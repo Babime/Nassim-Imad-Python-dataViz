@@ -6,8 +6,10 @@ import numpy as np
 from PIL import Image
 import base64
 
+# enregistre la page dash
 dash.register_page(__name__, '/' + __name__.split('.')[-1])
 
+# définit la mise en page de l'application
 layout = html.Div(
     children=[
         html.Div(
@@ -15,7 +17,7 @@ layout = html.Div(
                 dcc.Dropdown(
                     id="game-dropdown",
                     placeholder="Choisir une partie...",
-                    options=[],  
+                    options=[],  # options du menu déroulant
                     style={"color": "black", 
                            "width": "45%",
                             "margin": "0 auto",},
@@ -35,7 +37,7 @@ layout = html.Div(
                     max=1,
                     step=1,
                     value=0,
-                    marks={},
+                    marks={},  # marques sur le curseur
                     tooltip={"placement": "bottom", "always_visible": True},
                 ),
             ],
@@ -55,6 +57,7 @@ layout = html.Div(
     },
 )
 
+# définit le callback pour mettre à jour les options du menu déroulant, le curseur et le graphique
 @callback(
     [
         Output("game-dropdown", "options"),
@@ -80,6 +83,7 @@ def update_dropdown_slider_and_graph(selected_game_id, slider_value, _pseudo, st
     from src.utils.pyltover.match import MatchTimeline
     matchs = [MatchTimeline(None, data) for data in stored_timeline_games]
 
+    # crée les options du menu déroulant à partir des matchs stockés
     game_options = [
         {"label": f"Partie {game.metadata.matchId}", "value": game.metadata.matchId}
         for game in matchs
@@ -88,6 +92,7 @@ def update_dropdown_slider_and_graph(selected_game_id, slider_value, _pseudo, st
     if not selected_game_id:
         return game_options, 1, {}, html.Div("Selectionnez une partie pour voir les données.", style={"color": "white"})
 
+    # récupère les données du match sélectionné
     selected_game_data = next(
         (game for game in matchs if game.metadata.matchId == selected_game_id), None
     )
@@ -98,6 +103,7 @@ def update_dropdown_slider_and_graph(selected_game_id, slider_value, _pseudo, st
     max_time = len(selected_game_data.info.frames) - 1
     marks = {i: str(i) for i in range(max_time + 1)}
 
+    # trouve l'index du joueur dans les participants
     player_index = [participant.participantId for participant in selected_game_data.info.participants if participant.puuid == puuid_store][0]
 
     if slider_value is None or slider_value > max_time:
@@ -127,6 +133,7 @@ def update_dropdown_slider_and_graph(selected_game_id, slider_value, _pseudo, st
     x_min, y_min = -120, -120
     x_max, y_max = 14870, 14980
 
+    # fonction pour mettre à l'échelle les coordonnées des positions
     def scale_coordinates(x, y, img_width, img_height):
         scaled_x = (x - x_min) / (x_max - x_min) * img_width
         scaled_y = (y - y_min) / (y_max - y_min) * img_height
@@ -139,6 +146,7 @@ def update_dropdown_slider_and_graph(selected_game_id, slider_value, _pseudo, st
         scaled_x_positions.append(scaled_x)
         scaled_y_positions.append(scaled_y)
 
+    # encode l'image en base64
     with open(image_path, "rb") as f:
         encoded_image = base64.b64encode(f.read()).decode("utf-8")
     encoded_image = f"data:image/png;base64,{encoded_image}"
@@ -159,6 +167,7 @@ def update_dropdown_slider_and_graph(selected_game_id, slider_value, _pseudo, st
         )
     )
 
+    # ajoute les positions des joueurs sur le graphique
     fig.add_trace(go.Scatter(
         x=scaled_x_positions,
         y=scaled_y_positions,
