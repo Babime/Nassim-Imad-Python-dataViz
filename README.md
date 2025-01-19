@@ -68,6 +68,13 @@ Pour exécuter l'application via Docker :
 
 Accédez à l'application à l'adresse : [http://localhost:8050].
 
+Afin d'utiliser l'application, il faudra saisir le pseudo de joueurs. 
+En voici quelques uns:
+- Babimee#EUW
+- Targamas#5555
+- J1HUIV#000
+- SAKEN#soloq
+
 ---
 
 ## Data
