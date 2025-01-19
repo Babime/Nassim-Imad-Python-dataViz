@@ -105,13 +105,14 @@ NASSIM-IMAD-PYTHON-DATAVIZ/
 ### Ajouter une Page
 1. Créez un fichier dans `src/pages/`, par exemple `nouvelle_page.py`.
 2. Ajoutez ``` dash.register_page(__name__, '/' + __name__.split('.')[-1]) ``` afin qu'elle soit détecté automatiquement par dash
-3. Créer un variable ``` layout ``` qui contiendrait une div avec un id lié au component graph-container avec un id unique
-4. Styliser la div
+4. Styliser la div principale
+5. Dans le fichier ``` navbar.py ``` ajouter un ``` dcc.link ``` pour permettre l'accès à la page à travers la navbar
 
 ### Ajouter un Graphique
-1. Ajout d'une méthode lié à un callback permettant de créer et personnaliser un graph plotly
-2. Utiliser la librairie Pylotver (crée pour le projet) afin de récuperer les données depuis l'api RIOT
-3. Retourner le graphique plotly
+1. Créer un variable ``` layout ``` qui contiendrait une div avec un id lié au component graph-container avec un id unique
+2. Ajout d'une méthode lié à un callback permettant de créer et personnaliser un graph plotly
+3. Utiliser la librairie Pylotver (crée pour le projet) afin de récuperer les données depuis l'api RIOT
+4. Retourner le graphique plotly
 
 ### Diagramme de l'Architecture
 
