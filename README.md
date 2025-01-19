@@ -140,6 +140,8 @@ graph TD
     C2 --> C2_4[objectifs.py]
     C2 --> C2_5[pings.py]
     C2 --> C2_6[positions.py]
+    C2 --> C2_7[damage.py]
+    C2 --> C2_8[golds.py]
 
     C --> C3[utils/]
     C3 --> C3_1[pyltover/]
