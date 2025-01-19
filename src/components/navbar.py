@@ -33,10 +33,15 @@ def Navbar(current_page="", pseudo=""):
                 className="navbar-link disabled" if is_disabled else "navbar-link active" if current_page == "/positions" else "navbar-link",
             ),
             dcc.Link(
-                "Tests Visuels",
-                href="/test-visual",
-                className="navbar-link disabled" if is_disabled else "navbar-link active" if current_page == "/test-visual" else "navbar-link",
+                "Golds",
+                href="/golds",
+                className="navbar-link disabled" if is_disabled else "navbar-link active" if current_page == "/golds" else "navbar-link",
             ),
+            dcc.Link(
+                "Damage",
+                href="/damage",
+                className="navbar-link disabled" if is_disabled else "navbar-link active" if current_page == "/damage" else "navbar-link",
+            )
         ],
         className="navbar"
     )

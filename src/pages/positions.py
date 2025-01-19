@@ -6,10 +6,8 @@ import numpy as np
 from PIL import Image
 import base64
 
-# Registering the page
 dash.register_page(__name__, '/' + __name__.split('.')[-1])
 
-# Layout with dropdowns, slider, and graph
 layout = html.Div(
     children=[
         html.Div(
@@ -17,7 +15,7 @@ layout = html.Div(
                 dcc.Dropdown(
                     id="game-dropdown",
                     placeholder="Choisir une partie...",
-                    options=[],  # Options will be populated dynamically
+                    options=[],  
                     style={"color": "black", 
                            "width": "45%",
                             "margin": "0 auto",},
@@ -57,7 +55,6 @@ layout = html.Div(
     },
 )
 
-# Unified callback to update dropdown options, slider, and graph
 @callback(
     [
         Output("game-dropdown", "options"),
@@ -77,7 +74,6 @@ layout = html.Div(
     prevent_initial_call=False,
 )
 def update_dropdown_slider_and_graph(selected_game_id, slider_value, _pseudo, stored_timeline_games, puuid_store):
-    # Populate dropdown options on page load
     if not stored_timeline_games:
         return [], 1, {}, html.Div("Aucun pseudo stocké. Merci d'entrer un pseudo.", style={"color": "white"})
 
